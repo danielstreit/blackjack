@@ -12,6 +12,10 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @render()
+    @model.get('playerHand').on('bust stand', ->
+      $('.hit-button').attr('disabled', true)
+      $('.stand-button').attr('disabled', true)
+    )
 
   render: ->
     @$el.children().detach()
