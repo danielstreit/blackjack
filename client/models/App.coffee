@@ -9,4 +9,9 @@ class window.App extends Backbone.Model
 
   dealerAction: =>
     hand = @get('dealerHand')
-    hand.at(0).flip()
+    if not hand.at(0).get('revealed') then hand.at(0).flip()
+    score = do hand.scores
+    if score[0] > 17 or score[1] is 17 then do hand.stand
+    else
+      do hand.hit
+      if hand.scores()[0] < 21 then do @dealerAction
