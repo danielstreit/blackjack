@@ -1,14 +1,10 @@
 #todo: refactor to have a game beneath the outer blackjack model
 class window.App extends Backbone.Model
 
-  initialize: (cash)->
-    @set 'cash', cash or 2000
+  initialize: ->
+    @set 'cash', new CashPot()
     @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
-    @get('playerHand').on('stand', @dealerAction)
-    @get('playerHand').on('bust', @endGame)
-    @get('dealerHand').on('bust stand', @endGame)
+    do @newGame
 
   dealerAction: =>
     hand = @get('dealerHand')
@@ -18,6 +14,14 @@ class window.App extends Backbone.Model
     else
       do hand.hit
       if hand.scores()[0] <= 21 then do @dealerAction
+
+  newGame: =>
+    @set 'deck', deck = new Deck()
+    @set 'playerHand', deck.dealPlayer()
+    @set 'dealerHand', deck.dealDealer()
+    @get('playerHand').on('stand', @dealerAction)
+    @get('playerHand').on('bust', @endGame)
+    @get('dealerHand').on('bust stand', @endGame)
 
   endGame: =>
     playerScore = do @get('playerHand').scores

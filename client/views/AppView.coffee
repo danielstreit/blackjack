@@ -13,8 +13,8 @@ class window.AppView extends Backbone.View
     "click .stand-button": -> @model.get('playerHand').stand()
     "click .new-game": ->
       do @toggleButtons
-      do @model.initialize
-      do @render
+      do @model.newGame
+      do @initialize
 
   initialize: ->
     @render()
