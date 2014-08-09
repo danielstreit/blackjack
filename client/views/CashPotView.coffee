@@ -2,8 +2,13 @@ class window.CashPotView extends Backbone.View
 
   className: 'betController'
 
-  template: _.template '<input id="bet-bar" type="range" step=25 min=25 max=<% cash %> /></br>
-                        <label id="bet"><%bet%></label>'
+  template: _.template '<input id="bet-bar" value=25 type="range" step=25 min=25 max=<%= cash %> />
+                        <div>Current Bet: <span id="bet">25</span></div>'
+
+  events:
+    'change #bet-bar': ->
+      @model.set 'bet', do $('#bet-bar').val
+      $('#bet').text @model.get 'bet'
 
   initialize: ->
     @render
@@ -11,4 +16,3 @@ class window.CashPotView extends Backbone.View
 
   render: ->
     @$el.html @template @model.attributes
-
