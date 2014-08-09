@@ -3,6 +3,7 @@ class window.App extends Backbone.Model
 
   initialize: ->
     @set 'cash', new CashPot()
+    @set 'cashView', new CashPotView {model: @get 'cash' }
     @set 'deck', deck = new Deck()
     do @newGame
 
@@ -16,6 +17,7 @@ class window.App extends Backbone.Model
       if hand.scores()[0] <= 21 then do @dealerAction
 
   newGame: =>
+    # do @get('cash').askForBet
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()

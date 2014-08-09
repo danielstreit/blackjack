@@ -6,6 +6,7 @@ class window.AppView extends Backbone.View
     <button class="new-game">New Game</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container hidden"></div>
+    <div class="bet-area"></div>
   '
 
   events:
@@ -25,6 +26,7 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.bet-area').html do @model.get('cashView').render
 
   toggleButtons: ->
     $('.hit-button').toggle()
