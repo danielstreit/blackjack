@@ -15,8 +15,7 @@ class window.HandView extends Backbone.View
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
     @$('.score').text =>
-      scores = @collection.scores()
-      if scores[1] is 21 and @collection.length is 2 then @collection.stand()
+      scores = @collection.score
       if scores[0] and scores[1]
         if scores[1] > 21 then scores[0]
         else scores[1]
