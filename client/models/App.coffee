@@ -17,7 +17,7 @@ class window.App extends Backbone.Model
       if hand.scores()[0] <= 21 then do @dealerAction
 
   newGame: =>
-    # do @get('cash').askForBet
+    console.log @get('cash').get 'funds'
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
@@ -31,8 +31,12 @@ class window.App extends Backbone.Model
     dealerScore = do @get('dealerHand').scores
     dealerScore = if dealerScore[1] <= 21 then dealerScore[1] else dealerScore[0]
 
-    if playerScore > 21 then console.log 'dealer wins'
-    else if dealerScore > 21 then console.log 'player wins'
-    else if dealerScore > playerScore then console.log 'dealer wins'
-    else if playerScore > dealerScore then console.log 'player wins'
-    else console.log 'push'
+    cash = @get 'cash'
+    funds = cash.get 'funds'
+    bet = parseInt cash.get 'bet'
+
+    if playerScore > 21 then cash.set 'funds', funds - bet #dealer wins
+    else if dealerScore > 21 then cash.set 'funds', funds + bet #player wins
+    else if dealerScore > playerScore then cash.set 'funds', funds - bet #dealer wins
+    else if playerScore > dealerScore then cash.set 'funds', funds + bet #player wins
+    else @
