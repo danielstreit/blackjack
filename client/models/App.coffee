@@ -2,9 +2,9 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'cash', new CashPot()
+    @set 'cash', new CashPot
     @set 'cashView', new CashPotView {model: @get 'cash' }
-    @set 'deck', deck = new Deck()
+    @set 'deck', deck = new Deck
     do @newGame
 
   dealerAction: =>
@@ -17,13 +17,13 @@ class window.App extends Backbone.Model
       if hand.scores()[0] <= 21 then do @dealerAction
 
   newGame: =>
-    console.log @get('cash').get 'funds'
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
-    @get('playerHand').on('stand', @dealerAction)
-    @get('playerHand').on('bust', @endGame)
-    @get('dealerHand').on('bust stand', @endGame)
+    @set 'deck', deck = new Deck
+    @set 'playerHand', do deck.dealPlayer
+    @set 'dealerHand', do deck.dealDealer
+    @get('playerHand').on 'stand', @dealerAction
+    @get('playerHand').on 'bust blackjack', @endGame
+    @get('dealerHand').on 'bust stand', @endGame
+    @
 
   endGame: =>
     playerScore = do @get('playerHand').scores
@@ -35,7 +35,8 @@ class window.App extends Backbone.Model
     funds = cash.get 'funds'
     bet = parseInt cash.get 'bet'
 
-    if playerScore > 21 then cash.set 'funds', funds - bet #dealer wins
+    if playerScore is 21 and @get('playerHand').length is 2 then cash.set 'funds', funds + bet * 1.5 #blackjack
+    else if playerScore > 21 then cash.set 'funds', funds - bet #dealer wins
     else if dealerScore > 21 then cash.set 'funds', funds + bet #player wins
     else if dealerScore > playerScore then cash.set 'funds', funds - bet #dealer wins
     else if playerScore > dealerScore then cash.set 'funds', funds + bet #player wins

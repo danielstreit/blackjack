@@ -19,7 +19,7 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @render()
-    @model.get('playerHand').on 'bust stand', @toggleButtons
+    @model.get('playerHand').on 'bust stand blackjack', @toggleButtons
 
   render: ->
     @$el.children().detach()

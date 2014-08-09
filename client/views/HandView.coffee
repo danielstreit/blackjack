@@ -16,8 +16,7 @@ class window.HandView extends Backbone.View
       new CardView(model: card).$el
     @$('.score').text =>
       scores = @collection.scores()
-      # Check for BJ, TO DO: implement
-      if scores[1] is 21 and @collection.length is 2 then console.log 'BJ'
+      if scores[1] is 21 and @collection.length is 2 then @collection.trigger 'blackjack', @collection
       if scores[0] and scores[1]
         if scores[1] > 21 then scores[0]
         else scores[1]
