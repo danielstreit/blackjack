@@ -1,7 +1,8 @@
 #todo: refactor to have a game beneath the outer blackjack model
 class window.App extends Backbone.Model
 
-  initialize: ->
+  initialize: (cash)->
+    @set 'cash', cash or 2000
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
