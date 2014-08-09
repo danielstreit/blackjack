@@ -6,6 +6,7 @@ class window.App extends Backbone.Model
     @set 'cashView', new CashPotView {model: @get 'cash' }
     @set 'playerHand', new Hand []
     @set 'dealerHand', new Hand [], true
+    @set 'deck', deck = new Deck
 
     @get('playerHand').on 'stand', =>
       do @dealerAction
@@ -36,7 +37,9 @@ class window.App extends Backbone.Model
     @trigger 'toggle', @
 
   newGame: =>
-    @set 'deck', deck = new Deck
+    if @get('deck').length < 20
+      @set 'deck', deck = new Deck
+    deck = @get('deck')
     @get('playerHand').newHand deck
     @get('dealerHand').newHand deck
 
