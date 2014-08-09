@@ -6,7 +6,8 @@ class window.HandView extends Backbone.View
   template: _.template '<h2><% if(isDealer){ %>Dealer<% }else{ %>You<% } %> (<span class="score"></span>)</h2>'
 
   initialize: ->
-    @collection.on 'add remove change bust', => @render()
+    @collection.on 'all', (event) =>
+      do @render
     @render()
 
   render: ->
@@ -15,8 +16,8 @@ class window.HandView extends Backbone.View
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
     @$('.score').text =>
-      scores = @collection.score
-      if scores[0] and scores[1]
-        if scores[1] > 21 then scores[0]
-        else scores[1]
-      else scores[0]
+      score = @collection.score
+      if score and score
+        if score > 21 then score
+        else score
+      else score

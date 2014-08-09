@@ -13,13 +13,13 @@ class window.AppView extends Backbone.View
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
     "click .new-game": ->
-      do @toggleButtons
       do @model.newGame
-      do @initialize
+      do @toggleButtons
+      do @render
 
   initialize: ->
     @render()
-    @model.get('playerHand').on 'bust stand toggle', @toggleButtons
+    @model.on 'toggle', @toggleButtons, @
 
   render: ->
     @$el.children().detach()
@@ -29,7 +29,7 @@ class window.AppView extends Backbone.View
     @$('.bet-area').html do @model.get('cashView').render
 
   toggleButtons: ->
-    console.log 'toggle called'
+    console.log('toggleButtons')
     $('.hit-button').toggle()
     $('.stand-button').toggle()
     $('.new-game').toggle()

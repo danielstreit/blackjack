@@ -7,7 +7,7 @@ class window.CashPotView extends Backbone.View
 
   events:
     'change #bet-bar': ->
-      @model.set 'bet', do $('#bet-bar').val
+      @model.set 'bet', $('#bet-bar').val()
       $('#bet').text @model.get 'bet'
 
   initialize: ->
