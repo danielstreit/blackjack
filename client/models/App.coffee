@@ -21,11 +21,14 @@ class window.App extends Backbone.Model
     @set 'playerHand', do deck.dealPlayer
     @set 'dealerHand', do deck.dealDealer
     @get('playerHand').on 'stand', @dealerAction
-    @get('playerHand').on 'bust blackjack', @endGame
+    @get('playerHand').on 'bust blackjack', =>
+        console.log @
+        @trigger 'gameOver', @
+        @endGame
     @get('dealerHand').on 'bust stand', @endGame
-    @
 
   endGame: =>
+    console.log 'blackjack hit'
     playerScore = do @get('playerHand').scores
     playerScore = if playerScore[1] <= 21 then playerScore[1] else playerScore[0]
     dealerScore = do @get('dealerHand').scores
